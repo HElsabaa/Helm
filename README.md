@@ -1,4 +1,4 @@
-# kubernetes-and-ansible
+# kubernetes-and-Helm
 This is Ansible Playbooks acting as IaaC to Install/Configure/Delete Helm on a Kubernetes cluster.
 
 Prerequesits :
