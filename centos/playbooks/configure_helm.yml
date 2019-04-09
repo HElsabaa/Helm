@@ -1,0 +1,28 @@
+---
+- hosts: kubernetes-master-nodes
+  vars_files:
+  - env_variables
+  tasks:
+  - name: Downloading Helm Binaries
+    unarchive:
+      src: "{{ helm_url }}"
+      dest: /tmp
+      remote_src: yes
+
+  - name: Install Helm Binary
+    become: yes
+    copy:
+      src: /tmp/linux-amd64/helm
+      dest: /usr/bin/helm
+      owner: root
+      group: root
+      mode: 755
+      remote_src: yes
+
+  - name: Intialize Helm
+    shell: helm init --service-account {{ service_account }}
+
+  - name: Cleanup Helm download
+    file:
+       path: /tmp/linux-amd64
+       state: absent

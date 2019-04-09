@@ -1,0 +1,13 @@
+---
+- hosts: kubernetes-master-nodes
+  vars_files:
+  - env_variables
+  tasks:
+  - name: Creating tiller Service Account
+    shell: kubectl -n kube-system create serviceaccount {{ service_account }}
+#    shell: kubectl -n kube-system create serviceaccount tiller
+
+  - name: Creating Cluster Role Binding RBAC
+    shell: kubectl create clusterrolebinding {{ service_account }} --clusterrole cluster-admin --serviceaccount=kube-system:{{ service_account }}
+#    shell: kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+

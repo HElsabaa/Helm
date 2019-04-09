@@ -1,0 +1,21 @@
+---
+- hosts: kubernetes-master-nodes
+  vars_files:
+  - env_variables
+  tasks:
+  - name: Get_ReplicaSet
+    shell: kubectl -n kube-system get rs -o=name | grep {{ service_account }} | sed 's/^replicaset.extensions\///g'   
+    register: output
+  - debug: var=output.stdout
+
+  - name: Delete_ReplicaSet
+    shell: kubectl -n kube-system delete rs {{ output.stdout }}
+
+  - name: Delete Role biniding RBAC
+    shell: kubectl -n kube-system delete clusterrolebinding {{ service_account }}
+
+  - name: Delete Service Account
+    shell: kubectl -n kube-system delete sa {{ service_account }}
+
+  - name: Reset Helm
+    shell: helm reset --force --remove-helm-home
