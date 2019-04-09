@@ -1,0 +1,10 @@
+---
+- hosts: all
+  vars_files:
+  - env_variables
+  tasks:
+  - name: Flush IP tables
+    shell: iptables -F
+
+  - name: Restart Kubelet Service
+    shell: service kubelet restart

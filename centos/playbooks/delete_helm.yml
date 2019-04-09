@@ -8,9 +8,6 @@
     register: output
   - debug: var=output.stdout
 
-  - name: Delete_ReplicaSet
-    shell: kubectl -n kube-system delete rs {{ output.stdout }}
-
   - name: Delete Role biniding RBAC
     shell: kubectl -n kube-system delete clusterrolebinding {{ service_account }}
 
