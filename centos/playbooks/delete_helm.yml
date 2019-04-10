@@ -3,11 +3,6 @@
   vars_files:
   - env_variables
   tasks:
-  - name: Get_ReplicaSet
-    shell: kubectl -n kube-system get rs -o=name | grep {{ service_account }} | sed 's/^replicaset.extensions\///g'   
-    register: output
-  - debug: var=output.stdout
-
   - name: Delete Role biniding RBAC
     shell: kubectl -n kube-system delete clusterrolebinding {{ service_account }}
 

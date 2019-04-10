@@ -6,5 +6,17 @@
   - name: Flush IP tables
     shell: iptables -F
 
+  - name: IP tables Accept
+    shell: iptables -P FORWARD ACCEPT
+
+  - name: Enable IP Forwarding
+    shell: echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+
+  - name: Apply IP Forwarding
+    shell: sysctl -p /etc/sysctl.conf
+
+  - name: Restart Network
+    shell: service network restart
+
   - name: Restart Kubelet Service
     shell: service kubelet restart
